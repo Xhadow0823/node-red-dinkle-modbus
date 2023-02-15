@@ -1,0 +1,31 @@
+<script type="text/javascript">
+    RED.nodes.registerType("ModbusSlave", {
+        category: "config",
+        color: "#a6bbcf",
+        defaults: {
+            name: {
+                value: "",
+                required: false
+            }
+        },
+        inputs: 0,
+        outputs: 0,
+        icon: "serial.png",
+        label: function() {
+            return this.name || `Modbus Slave ${this.name}:${this.id}`;
+        }
+    });
+</script>
+
+<script type="text/html" data-template-name="ModbusSlave">
+    <div class="form-row">
+        <label for="node-input-name">
+            <i class="fa fa-tag"></i> Name
+        </label>
+        <input type="text" id="node-input-name" placeholder="Name">
+    </div>
+</script>
+
+<script type="text/html" data-help-name="ModbusSlave">
+    <p>A simple node that can send command to digital output module with</p>
+</script>

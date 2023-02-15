@@ -1,0 +1,22 @@
+{
+  "name": "@eric-w/node-red-dinkle-modbus",
+  "version": "0.0.0",
+  "description": "some nodes for communication with Dinkle's module",
+  "author": "Eric W.",
+  "license": "ISC",
+  "keywords": [
+    "node-red"
+  ],
+  "node-red": {
+    "nodes": {
+      "DO"           : "src/DOModule.js",
+      "Modbus Client": "src/ModbusSlave.js"
+    }
+  },
+  "dependencies": {
+    "modbus-serial": "^8.0.9"
+  },
+  "scripts": {
+    "reload": "cd C:\\Users\\MIAT && echo %cd%"
+  }
+}
