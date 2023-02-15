@@ -10,13 +10,13 @@
   "node-red": {
     "nodes": {
       "DO"           : "src/DOModule.js",
-      "Modbus Client": "src/ModbusSlave.js"
+      "Modbus Client": "src/ModbusServer.js"
     }
   },
   "dependencies": {
     "modbus-serial": "^8.0.9"
   },
   "scripts": {
-    "reload": "cd C:\\Users\\MIAT && echo %cd%"
+    "reload": "b.bat"
   }
 }
