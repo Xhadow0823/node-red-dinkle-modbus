@@ -1,10 +1,19 @@
 module.exports = function (RED) {
   function DOModule(config) {
     RED.nodes.createNode(this, config);
-    
+    this.server = RED.nodes.getNode(config.server);
+    this.slaveID = config.slaveID || "";
     let node = this;
 
+
     node.on("input", async (msg, send, done) => {
+      if(node.server) {
+        this.log(`config: ${JSON.stringify(node.server)}`);
+        console.log(node.server);
+      }else {
+        this.error("No config found!");
+      }
+      
       // check if the connection is open 
       // if error
       //   log error
