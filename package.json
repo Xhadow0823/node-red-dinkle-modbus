@@ -17,6 +17,7 @@
     "modbus-serial": "^8.0.9"
   },
   "scripts": {
-    "reload": "b.bat"
+    "reload": "b.bat",
+    "run playground": "node playground/index.js"
   }
 }
