@@ -1,0 +1,95 @@
+<script type="text/javascript">
+    RED.nodes.registerType("DI", {
+        category: "Dinkle Modbus",
+        color: "#a6bbcf",
+        defaults: {
+            name: {
+                value: "",
+                required: false
+            },
+            server: {
+                type: "ModbusServer",
+                required: true
+            },
+            slaveID: {
+                value: "",
+                required: true,
+                validate: RED.validators.number()
+            },
+
+            funcCode: {
+                value: "",
+                required: false,  // optional
+                validate: RED.validators.number()  // not working in select-option ?
+            },
+            // TODO: add a toggle switch to choose the address(and all other data needed) source
+            address: {
+                value: "0x2000",
+                required: false,  // optional
+                validate: RED.validators.number()
+            },
+            byteCount: {
+                value: "",
+                required: false,  // optional
+                validate: RED.validators.number()
+            },
+            data: {
+                value: "",
+                required: false,  // optional
+                validate: RED.validators.number()
+            },
+        },
+        inputs: 1,
+        outputs: 1,
+        icon: "serial.png",
+        label: function() {
+            return `Digital Input ${this.slaveID? ` #${this.slaveID.toString(16)}`: "" }`;
+        }
+    });
+</script>
+
+<script type="text/html" data-template-name="DI">
+    <div class="form-row">
+        <label for="node-input-name">
+            <i class="fa fa-tag"></i> Name
+        </label>
+        <input type="text" id="node-input-name" placeholder="Name">
+    </div>
+
+    <div class="form-row">
+        <label for="node-input-server"><i class="icon-globe"></i> <span> Modbus server </span></label>
+        <input type="text" id="node-input-server">
+    </div>
+
+    <div class="form-row">
+        <label for="node-input-slaveID"><i class="icon-globe"></i> <span> Module ID </span></label>
+        <input type="text" id="node-input-slaveID">
+    </div>
+
+    <div class="form-row">
+        <label for="node-input-funcCode"><i class="icon-globe"></i> <span> Function Code(option) </span></label>
+        <select type="text" id="node-config-input-funcCode">
+            <option value=""></option>
+        </select>
+    </div>
+
+    <div class="form-row">
+        <label for="node-input-address"><i class="icon-globe"></i> <span> Address(option) </span></label>
+        <input type="text" id="node-input-address">
+    </div>
+
+    <div class="form-row">
+        <label for="node-input-byteCount"><i class="icon-globe"></i> <span> Byte Count(option) </span></label>
+        <input type="text" id="node-input-byteCount">
+    </div>
+
+    <div class="form-row">
+        <label for="node-input-data"><i class="icon-globe"></i> <span> Data(option) </span></label>
+        <input type="text" id="node-input-data">
+    </div>
+
+</script>
+
+<script type="text/html" data-help-name="DI">
+    <p>A simple node send command to digital input module</p>
+</script>

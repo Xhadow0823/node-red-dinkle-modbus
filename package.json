@@ -9,7 +9,8 @@
   ],
   "node-red": {
     "nodes": {
-      "DO"           : "src/DOModule.js",
+      "DI": "src/DIModule.js",
+      "DO": "src/DOModule.js",
       "Modbus Client": "src/ModbusServer.js"
     }
   },
