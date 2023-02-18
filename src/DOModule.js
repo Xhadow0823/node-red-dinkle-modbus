@@ -3,7 +3,13 @@ module.exports = function (RED) {
     RED.nodes.createNode(this, config);
     this.name = config.name;
     this.server = RED.nodes.getNode(config.server);  // <- the name is toooooo comfusing
-    this.slaveID = config.slaveID || "";
+
+    this.slaveID   = config.slaveID || "";
+    this.funcCode  = config.funcCode || "";
+    this.address   = config.address || "";
+    this.byteCount = config.byteCount || "";
+    this.data      = config.data || "";
+
     let node = this;
 
 
@@ -24,6 +30,45 @@ module.exports = function (RED) {
       node.server.blink();
 
       //////////////////// TEST CODE ABOVE ////////////////////
+      // check config needed in modbus packet
+      // check if config.funcCode exist
+      // if not exist
+      //   check if msg.payload.xx exist
+      //   if not then
+      //     show error and return
+      //   else
+      //     use xx from msg payload in
+      // else
+      //   use xx from config.xx
+      // check if config.address exist
+      // if not exist
+      //   check if msg.payload.xx exist
+      //   if not then
+      //     show error and return
+      //   else
+      //     use xx from msg payload in
+      // else
+      //   use xx from config.xx
+      // check if config.byteCount exist
+      // if not exist
+      //   check if msg.payload.xx exist
+      //   if not then
+      //     show error and return
+      //   else
+      //     use xx from msg payload in
+      // else
+      //   use xx from config.xx
+      // check if config.data exist
+      // if not exist
+      //   check if msg.payload.xx exist
+      //   if not then
+      //     show error and return
+      //   else
+      //     use xx from msg payload in
+      // else
+      //   use xx from config.xx
+
+
       // check if the connection is open 
       // if error
       //   log error

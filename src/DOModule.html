@@ -14,14 +14,35 @@
             slaveID: {
                 value: "",
                 required: true,
-                validate: /^[0-9]*$/
-            }
+                validate: RED.validators.number()
+            },
+            funcCode: {
+                value: "",
+                required: false,  // optional
+                validate: RED.validators.number()  // not working in select-option ?
+            },
+            // TODO: add a toggle switch to choose the address(and all other data needed) source
+            address: {
+                value: "0x2000",
+                required: false,  // optional
+                validate: RED.validators.number()
+            },
+            byteCount: {
+                value: "",
+                required: false,  // optional
+                validate: RED.validators.number()
+            },
+            data: {
+                value: "",
+                required: false,  // optional
+                validate: RED.validators.number()
+            },
         },
         inputs: 1,
         outputs: 1,
         icon: "serial.png",
         label: function() {
-            return `Digital Output #${this.slaveID}`;
+            return `Digital Output ${this.slaveID? ` #${this.slaveID.toString(16)}`: "" }`;
         }
     });
 </script>
@@ -43,6 +64,34 @@
         <label for="node-input-slaveID"><i class="icon-globe"></i> <span> Module ID </span></label>
         <input type="text" id="node-input-slaveID">
     </div>
+
+    <div class="form-row">
+        <label for="node-input-funcCode"><i class="icon-globe"></i> <span> Function Code(option) </span></label>
+        <select type="text" id="node-config-input-funcCode">
+            <option value=""></option>
+            <option value="0x01">0x01</option>
+            <option value="0x05">0x05</option>
+            <option value="0x06">0x06</option>
+            <option value="0x0F">0x0F</option>
+            <option value="0x10">0x10</option>
+        </select>
+    </div>
+
+    <div class="form-row">
+        <label for="node-input-address"><i class="icon-globe"></i> <span> Address(option) </span></label>
+        <input type="text" id="node-input-address">
+    </div>
+
+    <div class="form-row">
+        <label for="node-input-byteCount"><i class="icon-globe"></i> <span> Byte Count(option) </span></label>
+        <input type="text" id="node-input-byteCount">
+    </div>
+
+    <div class="form-row">
+        <label for="node-input-data"><i class="icon-globe"></i> <span> Data(option) </span></label>
+        <input type="text" id="node-input-data">
+    </div>
+
 </script>
 
 <script type="text/html" data-help-name="DO">
