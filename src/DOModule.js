@@ -14,20 +14,20 @@ module.exports = function (RED) {
 
 
     node.on("input", async (msg, send, done) => {
-      // show node name
-      console.log(`==========${ node.name }==========`)
-      if(node.server) {
-        // this.log(`config: ${JSON.stringify(node.server)}`);
-        // console.log(node.server);
-      }else {
-        this.error("No config found!");
-        return ;
-      }
+      // // show node name
+      // console.log(`==========${ node.name }==========`)
+      // if(node.server) {
+      //   // this.log(`config: ${JSON.stringify(node.server)}`);
+      //   // console.log(node.server);
+      // }else {
+      //   this.error("No config found!");
+      //   return ;
+      // }
 
-      if(!node.server.isOpened()) {
-        await node.server.open();
-      }
-      node.server.blink();
+      // if(!node.server.isOpened()) {
+      //   await node.server.open();
+      // }
+      // node.server.blink();
 
       //////////////////// TEST CODE ABOVE ////////////////////
       // check config needed in modbus packet
@@ -68,7 +68,6 @@ module.exports = function (RED) {
       // else
       //   use xx from config.xx
 
-
       // check if the connection is open 
       // if error
       //   log error
@@ -90,9 +89,53 @@ module.exports = function (RED) {
       // else
       //   send the response to next
       
+      // send(msg);
+      
 
+      //////////////////// GO ////////////////////
+      if(!node.server) {
+        console.log("- DOModule: Modbus server not provided in config");
+        return;
+      }
+      let packet = Object.assign({}, {
+        slaveID:   msg.payload.slaveID || node.slaveID,
+        funcCode:  msg.payload.funcCode || node.funcCode,
+        address:   msg.payload.address || node.address,
+        byteCount: msg.payload.byteCount || node.byteCount,
+        data:      msg.payload.data || node.data
+      });
+      if(!(packet.slaveID && packet.funcCode && packet.address && packet.byteCount && packet.data)) {
+        console.log(`- DOModule: modbus packet error: ${
+          // Object.entries(packet).reduce((str, entry, i) => {
+          //   if(!entry[1]) {
+          //     console.log("entry: ", entry, entry[0], entry[1]);
+          //     return str+`${!str?"":" ,"}${entry[0]}`;
+          //   }else {
+          //     return str;
+          //   }
+          // }, "")
 
-      send(msg);
+          Object.entries(packet).filter(([key, val]) => !val).map(([key,val]) => key).join(", ")
+        } is/are necessary to provided`);
+        return;
+      }
+      Object.assign(packet, {
+        slaveID:   parseInt(packet.slaveID),
+        funcCode:  parseInt(packet.funcCode),
+        address:   parseInt(packet.address),
+        byteCount: parseInt(packet.byteCount),
+        data:      parseInt(packet.data)
+      });
+
+      node.server.do(packet.funcCode, packet).then((response) => {
+        console.log("+ DIModule: Modbus response: ", response);
+        msg.payload = Object.assign({}, response);
+        send(msg);
+      }).catch((error) => {
+        console.log("- DIModule: Modbus request error: ", error);
+        return ;
+      });
+
     });
   }
   RED.nodes.registerType("DO", DOModule);

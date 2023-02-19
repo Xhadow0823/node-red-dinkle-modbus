@@ -60,7 +60,28 @@ module.exports = function (RED) {
         node.remainBlink = 10;
         bbb();
       }
+      
+      node.setID = function(id) {
+        node.server.setID(id);
+      };
+      node.setTimeout = function(timeout) {
+        node.server.setTimeout(timeout);
+      };
+      this.do = function(funcCode, packet) {
+        return new Promise((resolve, reject) => {
+          node.setID(packet.slaveID);
+          if(packet.funcCode == 87 || packet.funcCode == 0x87) {
+            reject("87?");
+          }else {
+            resolve(packet);
+          }
+        });
+        // if func == 0x06 ...
+      };
 
+      node.on("close", function(done) {
+        done();
+      });
     }
     RED.nodes.registerType("ModbusServer", ModbusServer);
   }
