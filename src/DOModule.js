@@ -104,21 +104,14 @@ module.exports = function (RED) {
         byteCount: msg.payload.byteCount || node.byteCount,
         data:      msg.payload.data || node.data
       });
-      if(!(packet.slaveID && packet.funcCode && packet.address && packet.byteCount && packet.data)) {
-        console.log(`- DOModule: modbus packet error: ${
-          // Object.entries(packet).reduce((str, entry, i) => {
-          //   if(!entry[1]) {
-          //     console.log("entry: ", entry, entry[0], entry[1]);
-          //     return str+`${!str?"":" ,"}${entry[0]}`;
-          //   }else {
-          //     return str;
-          //   }
-          // }, "")
-
-          Object.entries(packet).filter(([key, val]) => !val).map(([key,val]) => key).join(", ")
-        } is/are necessary to provided`);
-        return;
-      }
+      // TODO:
+      // ONLY check slaveID here and the rest will be check in modbusServer.do!!
+      // if(!(packet.slaveID && packet.funcCode && packet.address && packet.byteCount && packet.data)) {
+      //   console.log(`- DOModule: modbus packet error: ${
+      //     Object.entries(packet).filter(([key, val]) => !val).map(([key,val]) => key).join(", ")
+      //   } is/are necessary to provided`);
+      //   return;
+      // }
       Object.assign(packet, {
         slaveID:   parseInt(packet.slaveID),
         funcCode:  parseInt(packet.funcCode),
@@ -128,11 +121,11 @@ module.exports = function (RED) {
       });
 
       node.server.do(packet.funcCode, packet).then((response) => {
-        console.log("+ DIModule: Modbus response: ", response);
+        console.log("+ DOModule: Modbus response: ", response);
         msg.payload = Object.assign({}, response);
         send(msg);
       }).catch((error) => {
-        console.log("- DIModule: Modbus request error: ", error);
+        console.log("- DOModule: Modbus request error: ", error);
         return ;
       });
 

@@ -23,7 +23,7 @@
             },
             // TODO: add a toggle switch to choose the address(and all other data needed) source
             address: {
-                value: "0x2000",
+                value: "",
                 required: false,  // optional
                 validate: RED.validators.number()
             },
@@ -67,13 +67,13 @@
 
     <div class="form-row">
         <label for="node-input-funcCode"><i class="icon-globe"></i> <span> Function Code(option) </span></label>
-        <select type="text" id="node-config-input-funcCode">
+        <select type="text" id="node-input-funcCode">
             <option value=""></option>
-            <option value="0x01">0x01</option>
-            <option value="0x05">0x05</option>
-            <option value="0x06">0x06</option>
-            <option value="0x0F">0x0F</option>
-            <option value="0x10">0x10</option>
+            <option value="0x01">0x01 (read coils)</option>
+            <option value="0x05">0x05 (write single coil)</option>
+            <option value="0x06">0x06 (write single holding register)</option>
+            <!-- <option value="0x0F">0x0F (write coils)</option>
+            <option value="0x10">0x10 (write holding registers)</option> -->
         </select>
     </div>
 
