@@ -8,7 +8,7 @@ call npm uninstall "@eric-w/node-red-dinkle-modbus"
 if %ERRORLEVEL% NEQ 0 goto errorblock
 echo ^> uninstall module ... ok=====================================
 
-call npm install D:\WORKSPACEs\NODEJS\node-red-dinkle-modbus
+call npm install C:\WORKSPACEs\NODE\node-red-dinkle-modbus
 if %ERRORLEVEL% NEQ 0 goto errorblock
 echo ^> reinstall module ... ok=====================================
 
