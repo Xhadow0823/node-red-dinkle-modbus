@@ -15,7 +15,7 @@
     }
   },
   "dependencies": {
-    "modbus-serial": "^8.0.9"
+    "modbus-serial": "8.0.9"
   },
   "scripts": {
     "reload": "b.bat",

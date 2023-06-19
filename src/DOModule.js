@@ -1,102 +1,29 @@
 module.exports = function (RED) {
   function DOModule(config) {
     RED.nodes.createNode(this, config);
-    this.name = config.name;
-    this.server = RED.nodes.getNode(config.server);  // <- the name is toooooo comfusing
-
+    // ===== prepare property with config object =====
+    this.name      = config.name;
+    this.server    = RED.nodes.getNode(config.server);  // <- the name is toooooo comfusing
     this.slaveID   = config.slaveID || "";
     this.funcCode  = config.funcCode || "";
     this.address   = config.address || "";
     this.byteCount = config.byteCount || "";
     this.data      = config.data || "";
-
+    // ===== prepare property with config object end =====
+    // ===== prepare tools =====
     let node = this;
+    // ===== prepare tools end =====
 
-
+    /**
+     * on msg arriving.
+     */
     node.on("input", async (msg, send, done) => {
-      // // show node name
-      // console.log(`==========${ node.name }==========`)
-      // if(node.server) {
-      //   // this.log(`config: ${JSON.stringify(node.server)}`);
-      //   // console.log(node.server);
-      // }else {
-      //   this.error("No config found!");
-      //   return ;
-      // }
-
-      // if(!node.server.isOpened()) {
-      //   await node.server.open();
-      // }
-      // node.server.blink();
-
-      //////////////////// TEST CODE ABOVE ////////////////////
-      // check config needed in modbus packet
-      // check if config.funcCode exist
-      // if not exist
-      //   check if msg.payload.xx exist
-      //   if not then
-      //     show error and return
-      //   else
-      //     use xx from msg payload in
-      // else
-      //   use xx from config.xx
-      // check if config.address exist
-      // if not exist
-      //   check if msg.payload.xx exist
-      //   if not then
-      //     show error and return
-      //   else
-      //     use xx from msg payload in
-      // else
-      //   use xx from config.xx
-      // check if config.byteCount exist
-      // if not exist
-      //   check if msg.payload.xx exist
-      //   if not then
-      //     show error and return
-      //   else
-      //     use xx from msg payload in
-      // else
-      //   use xx from config.xx
-      // check if config.data exist
-      // if not exist
-      //   check if msg.payload.xx exist
-      //   if not then
-      //     show error and return
-      //   else
-      //     use xx from msg payload in
-      // else
-      //   use xx from config.xx
-
-      // check if the connection is open 
-      // if error
-      //   log error
-      //   return
-      // if not open
-      //   open()
-      
-      // check input msg.payload
-      // if msg.payload not valid
-      //   log error
-      //   return 
-      // else
-      //   send command to modbus slave  and  get the response
-
-      // check if the response status
-      // if response status error
-      //   log error
-      //   return
-      // else
-      //   send the response to next
-      
-      // send(msg);
-      
-
-      //////////////////// GO ////////////////////
+      // check if the modbus server is provided
       if(!node.server) {
         console.log("- DOModule: Modbus server not provided in config");
         return;
       }
+      // prepare packet for modbus function call
       let packet = Object.assign({}, {
         slaveID:   msg.payload.slaveID || node.slaveID,
         funcCode:  msg.payload.funcCode || node.funcCode,
@@ -118,19 +45,18 @@ module.exports = function (RED) {
         funcCode:  parseInt(packet.funcCode),
         address:   parseInt(packet.address),
         byteCount: parseInt(packet.byteCount),
-        data:      packet.funcCode!=5? parseInt(packet.data) : !!packet.data
+        data:      packet.funcCode!=5? parseInt(packet.data) : !!packet.data  // make this flow better
       });
-      // console.log("from module: ", packet);
-
+      // send packet with server.do() and wait the response
       node.server.do(packet.funcCode, packet).then((response) => {
         console.log("+ DOModule: Modbus response: ", response);
+        // send response as node output
         msg.payload = Object.assign({}, response);
         send(msg);
       }).catch((error) => {
         console.log("- DOModule: Modbus request error: ", error);
         return ;
       });
-
     });
   }
   RED.nodes.registerType("DO", DOModule);
