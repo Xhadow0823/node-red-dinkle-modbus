@@ -112,13 +112,15 @@ module.exports = function (RED) {
       //   } is/are necessary to provided`);
       //   return;
       // }
+      // console.log("from module: ", packet.data);
       Object.assign(packet, {
         slaveID:   parseInt(packet.slaveID),
         funcCode:  parseInt(packet.funcCode),
         address:   parseInt(packet.address),
         byteCount: parseInt(packet.byteCount),
-        data:      parseInt(packet.data)
+        data:      packet.funcCode!=5? parseInt(packet.data) : !!packet.data
       });
+      // console.log("from module: ", packet);
 
       node.server.do(packet.funcCode, packet).then((response) => {
         console.log("+ DOModule: Modbus response: ", response);

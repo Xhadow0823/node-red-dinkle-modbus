@@ -126,7 +126,7 @@ module.exports = function (RED) {
             default: 
               console.log("- Modbus Server: unknown function code: ", packet.funcCode);
               return ;
-          }          
+          }
         }
         return new Promise((resolve, reject) => {
           try {
